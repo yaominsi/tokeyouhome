@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://repo.alibaba-inc.com/schema/dubbo"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://repo.alibaba-inc.com/schema/dubbo
+        http://repo.alibaba-inc.com/schema/dubbo/dubbo-component.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        " default-autowire="byName">
+ 	
+	<bean id="needNotifyInterceptor" class="com.fujisan.aop.NeedNotifyInterceptor"/>
+	<aop:config proxy-target-class="true" >
+		<aop:pointcut id="servicePointCut" expression="@annotation(com.fujisan.notify.NeedNotify)"  />
+		<aop:aspect id="serviceAround" ref="needNotifyInterceptor">
+			<aop:around method="around" pointcut-ref="servicePointCut"/>
+		</aop:aspect>
+	</aop:config>
+</beans>
